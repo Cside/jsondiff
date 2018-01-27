@@ -32,11 +32,11 @@ func LineDiff(a, b string) string {
 		if diff.Type != diffmatchpatch.DiffEqual {
 			modified++
 		}
-		texts := strings.Split(diff.Text, "\n")
+		texts := strings.Split(
+			strings.TrimSuffix(diff.Text, "\n"),
+			"\n",
+		)
 		for _, text := range texts {
-			if text == "" {
-				continue
-			}
 			diffStrs = append(diffStrs, linePrefix[diff.Type]+text)
 		}
 	}

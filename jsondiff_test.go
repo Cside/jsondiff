@@ -104,7 +104,55 @@ func TestEqual(t *testing.T) {
 		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(tt.want, Equal([]byte(js), []byte(tt.args)))
+			assert.Equal(
+				tt.want, Equal([]byte(js), []byte(tt.args)),
+			)
+		})
+	}
+}
+
+func TestDiff(t *testing.T) {
+	assert := assert.New(t)
+	js := `{
+		"foo": [1, 2],
+		"bar": [3]
+	}`
+	for _, tt := range []struct {
+		name string
+		args string
+		want string
+	}{
+		{
+			name: "equal",
+			args: `{
+				"bar": [3],
+				"foo": [1, 2]
+			}`,
+			want: "",
+		},
+		{
+			name: "not equal",
+			args: `{
+				"foo": [2, 1],
+				"bar": [3]
+			}`,
+			want: `  {
+    "bar": [
+      3
+    ],
+    "foo": [
+-     1,
+-     2
++     2,
++     1
+    ]
+  }`,
+		},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(
+				tt.want, Diff([]byte(js), []byte(tt.args)),
+			)
 		})
 	}
 }

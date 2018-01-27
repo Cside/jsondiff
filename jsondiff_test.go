@@ -8,10 +8,10 @@ import (
 
 func TestLineDiff(t *testing.T) {
 	assert := assert.New(t)
-	str := "foo\n" +
-		"bar\n" +
-		"\n" +
-		"baz"
+	str := `foo
+bar
+
+baz`
 	for _, tt := range []struct {
 		name string
 		args string
@@ -19,19 +19,19 @@ func TestLineDiff(t *testing.T) {
 	}{
 		{
 			name: "equal",
-			args: "foo\n" +
-				"bar\n" +
-				"\n" +
-				"baz",
-			want: "",
+			args: `foo
+bar
+
+baz`,
+			want: ``,
 		},
 		{
 			name: "plus",
-			args: "foo\n" +
-				"bar\n" +
-				"\n" +
-				"foobar\n" +
-				"baz",
+			args: `foo
+bar
+
+foobar
+baz`,
 			want: "  foo\n" +
 				"  bar\n" +
 				"  \n" +
@@ -40,9 +40,9 @@ func TestLineDiff(t *testing.T) {
 		},
 		{
 			name: "minus",
-			args: "foo\n" +
-				"bar\n" +
-				"baz",
+			args: `foo
+bar
+baz`,
 			want: "  foo\n" +
 				"  bar\n" +
 				"- \n" +
@@ -50,10 +50,10 @@ func TestLineDiff(t *testing.T) {
 		},
 		{
 			name: "plus and minus",
-			args: "foo\n" +
-				"bar\n" +
-				"foobar\n" +
-				"baz",
+			args: `foo
+bar
+foobar
+baz`,
 			want: "  foo\n" +
 				"  bar\n" +
 				"- \n" +

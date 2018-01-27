@@ -3,6 +3,9 @@ package jsondiff
 import (
 	"testing"
 
+	"fmt"
+
+	"github.com/Cside/go-json-diff/diffopts"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -155,4 +158,14 @@ func TestDiff(t *testing.T) {
 			)
 		})
 	}
+}
+
+func TestColorize(t *testing.T) {
+	fmt.Println(
+		Diff(
+			[]byte(`{ "foo": [1, 2], "bar": [3] }`),
+			[]byte(`{ "foo": [2, 1], "bar": [3] }`),
+			diffopts.Colorize(),
+		),
+	)
 }

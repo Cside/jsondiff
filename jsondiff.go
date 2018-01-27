@@ -102,8 +102,9 @@ func LineDiff(a, b string, opts ...Option) string {
 	newLines := []string{}
 	for _, line := range lines {
 		for _, opt := range opts {
-			newLines = append(newLines, opt.filterLineDiff(line))
+			line = opt.filterLineDiff(line)
 		}
+		newLines = append(newLines, line)
 	}
 	return strings.Join(newLines, "\n")
 }

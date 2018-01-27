@@ -3,15 +3,32 @@ package jsondiff
 import (
 	"strings"
 
+	"github.com/bitly/go-simplejson"
 	"github.com/sergi/go-diff/diffmatchpatch"
 )
 
 func Equal(a, b []byte) bool {
-	return true
+	return string(BeautifyJSON(a)) == string(BeautifyJSON(b))
 }
 
 func Diff(a, b []byte) string {
-	return ""
+	return LineDiff(
+		string(BeautifyJSON(a)),
+		string(BeautifyJSON(b)),
+	)
+}
+
+// TODO ignore path
+func BeautifyJSON(b []byte) []byte {
+	js, err := simplejson.NewJson(b)
+	if err != nil {
+		return []byte("invalid JSON")
+	}
+	o, err := js.EncodePretty()
+	if err != nil {
+		return []byte("invalid JSON")
+	}
+	return o
 }
 
 var linePrefix = map[diffmatchpatch.Operation]string{

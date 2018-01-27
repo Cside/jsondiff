@@ -66,3 +66,45 @@ func TestLineDiff(t *testing.T) {
 		})
 	}
 }
+
+func TestEqual(t *testing.T) {
+	assert := assert.New(t)
+	js := `{
+		"foo": [1, 2],
+		"bar": [3]
+	}`
+	for _, tt := range []struct {
+		name string
+		args string
+		want bool
+	}{
+		{
+			name: "equal",
+			args: `{
+				"bar": [3],
+				"foo": [1, 2]
+			}`,
+			want: true,
+		},
+		{
+			name: "not equal",
+			args: `{
+				"foo": [2, 1],
+				"bar": [3]
+			}`,
+			want: false,
+		},
+		{
+			name: "invalid json",
+			args: `{
+				"foo": [1, 2],
+				"bar": [3],
+			}`,
+			want: false,
+		},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(tt.want, Equal([]byte(js), []byte(tt.args)))
+		})
+	}
+}

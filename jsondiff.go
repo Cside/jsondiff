@@ -1,3 +1,4 @@
+// test
 package jsondiff
 
 import (
@@ -20,22 +21,10 @@ func Equal(a, b []byte, opts ...diffopts.Option) bool {
 
 func Diff(a, b []byte, opts ...diffopts.Option) string {
 	return LineDiff(
-		string(BeautifyJSON(filterJSON(a, opts...))),
-		string(BeautifyJSON(filterJSON(b, opts...))),
+		string(beautifyJSON(filterJSON(a, opts...))),
+		string(beautifyJSON(filterJSON(b, opts...))),
 		opts...,
 	)
-}
-
-func BeautifyJSON(b []byte) []byte {
-	js, err := simplejson.NewJson(b)
-	if err != nil {
-		return []byte("invalid JSON")
-	}
-	out, err := js.EncodePretty()
-	if err != nil {
-		return []byte("invalid JSON")
-	}
-	return out
 }
 
 func LineDiff(a, b string, opts ...diffopts.Option) string {
@@ -69,6 +58,18 @@ func LineDiff(a, b string, opts ...diffopts.Option) string {
 		newLines = append(newLines, line)
 	}
 	return strings.Join(newLines, "\n")
+}
+
+func beautifyJSON(b []byte) []byte {
+	js, err := simplejson.NewJson(b)
+	if err != nil {
+		return []byte("invalid JSON")
+	}
+	out, err := js.EncodePretty()
+	if err != nil {
+		return []byte("invalid JSON")
+	}
+	return out
 }
 
 func filterJSON(b []byte, opts ...diffopts.Option) []byte {

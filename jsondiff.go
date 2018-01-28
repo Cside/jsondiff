@@ -3,7 +3,7 @@ package jsondiff
 import (
 	"strings"
 
-	"github.com/Cside/go-json-diff/diffopts"
+	"github.com/Cside/jsondiff/diffopts"
 	"github.com/bitly/go-simplejson"
 	"github.com/sergi/go-diff/diffmatchpatch"
 )
@@ -20,20 +20,13 @@ func Equal(a, b []byte, opts ...diffopts.Option) bool {
 
 func Diff(a, b []byte, opts ...diffopts.Option) string {
 	return LineDiff(
-		string(BeautifyJSON(a, opts...)),
-		string(BeautifyJSON(b, opts...)),
+		string(BeautifyJSON(filterJSON(a, opts...))),
+		string(BeautifyJSON(filterJSON(b, opts...))),
 		opts...,
 	)
 }
 
-func BeautifyJSON(b []byte, opts ...diffopts.Option) []byte {
-	// TODO 場所がいけてないのであとで移す
-	for _, opt := range opts {
-		filtered, err := opt.FilterJSON(b)
-		if err == nil {
-			b = filtered
-		}
-	}
+func BeautifyJSON(b []byte) []byte {
 	js, err := simplejson.NewJson(b)
 	if err != nil {
 		return []byte("invalid JSON")
@@ -76,4 +69,14 @@ func LineDiff(a, b string, opts ...diffopts.Option) string {
 		newLines = append(newLines, line)
 	}
 	return strings.Join(newLines, "\n")
+}
+
+func filterJSON(b []byte, opts ...diffopts.Option) []byte {
+	for _, opt := range opts {
+		filtered, err := opt.FilterJSON(b)
+		if err == nil {
+			b = filtered
+		}
+	}
+	return b
 }

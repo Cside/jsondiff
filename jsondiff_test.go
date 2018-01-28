@@ -5,7 +5,7 @@ import (
 
 	"fmt"
 
-	"github.com/Cside/go-json-diff/diffopts"
+	"github.com/Cside/jsondiff/diffopts"
 	"github.com/stretchr/testify/assert"
 )
 

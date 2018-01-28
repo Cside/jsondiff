@@ -9,6 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func b(s string) []byte { return []byte(s) }
+
 func TestLineDiff(t *testing.T) {
 	assert := assert.New(t)
 	str := `foo
@@ -108,7 +110,7 @@ func TestEqual(t *testing.T) {
 	} {
 		t.Run(tt.name, func(t *testing.T) {
 			assert.Equal(
-				tt.want, Equal([]byte(js), []byte(tt.args)),
+				tt.want, Equal(b(js), b(tt.args)),
 			)
 		})
 	}
@@ -154,18 +156,58 @@ func TestDiff(t *testing.T) {
 	} {
 		t.Run(tt.name, func(t *testing.T) {
 			assert.Equal(
-				tt.want, Diff([]byte(js), []byte(tt.args)),
+				tt.want, Diff(b(js), b(tt.args)),
 			)
 		})
 	}
 }
 
-func TestColorize(t *testing.T) {
+func Test_diffoptsColorize(t *testing.T) {
 	fmt.Println(
 		Diff(
-			[]byte(`{ "foo": [1, 2], "bar": [3] }`),
-			[]byte(`{ "foo": [2, 1], "bar": [3] }`),
+			b(`{ "foo": [1, 2], "bar": [3] }`),
+			b(`{ "foo": [2, 1], "bar": [3] }`),
 			diffopts.Colorize(),
 		),
 	)
+}
+
+func Test_diffoptsIgnorePaths(t *testing.T) {
+	assert := assert.New(t)
+	type args struct {
+		a      string
+		b      string
+		ignore []string
+	}
+	for _, tt := range []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			name: "basic case",
+			args: args{
+				a:      `{"foo":1, "bar":2}`,
+				b:      `{"foo":1, "bar":3}`,
+				ignore: []string{"/bar"},
+			},
+			want: true,
+		},
+		{
+			name: "multiple",
+			args: args{
+				a:      `{"foo":1, "bar":2, "baz":3}`,
+				b:      `{"foo":1, "bar":3, "baz":4}`,
+				ignore: []string{"/bar", "/baz"},
+			},
+			want: true,
+		},
+	} {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(
+				tt.want,
+				Equal(b(tt.args.a), b(tt.args.b), diffopts.IgnorePaths(tt.args.ignore)),
+			)
+		})
+	}
 }

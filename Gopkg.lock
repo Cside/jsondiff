@@ -14,22 +14,10 @@
   version = "v1.1.0"
 
 [[projects]]
-  name = "github.com/fatih/color"
+  branch = "master"
+  name = "github.com/evanphx/json-patch"
   packages = ["."]
-  revision = "570b54cabe6b8eb0bc2dfce68d964677d63b5260"
-  version = "v1.5.0"
-
-[[projects]]
-  name = "github.com/mattn/go-colorable"
-  packages = ["."]
-  revision = "167de6bfdfba052fa6b2d3664c8f5272e23c9072"
-  version = "v0.0.9"
-
-[[projects]]
-  name = "github.com/mattn/go-isatty"
-  packages = ["."]
-  revision = "0360b2af4f38e8d38c7fce2a9f4e702702d73a39"
-  version = "v0.0.3"
+  revision = "944e07253867aacae43c04b2e6a239005443f33a"
 
 [[projects]]
   name = "github.com/pmezard/go-difflib"
@@ -49,15 +37,9 @@
   revision = "b91bfb9ebec76498946beb6af7c0230c7cc7ba6c"
   version = "v1.2.0"
 
-[[projects]]
-  branch = "master"
-  name = "golang.org/x/sys"
-  packages = ["unix"]
-  revision = "ff2a66f350cefa5c93a634eadb5d25bb60c85a9c"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "57b9684125fb3b7041a0e115c06ee176a04cc0e2d69208f895cf94fb10e896f5"
+  inputs-digest = "ec6ffd190965c302addff1ecc9974501410cec08e524b84742f4f21e287cb9ff"
   solver-name = "gps-cdcl"
   solver-version = 1

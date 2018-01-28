@@ -26,8 +26,8 @@ func Diff(a, b []byte, opts ...diffopts.Option) string {
 	)
 }
 
-// TODO ignore path
 func BeautifyJSON(b []byte, opts ...diffopts.Option) []byte {
+	// TODO 場所がいけてないのであとで移す
 	for _, opt := range opts {
 		filtered, err := opt.FilterJSON(b)
 		if err == nil {
@@ -45,7 +45,6 @@ func BeautifyJSON(b []byte, opts ...diffopts.Option) []byte {
 	return out
 }
 
-// TODO: color option
 func LineDiff(a, b string, opts ...diffopts.Option) string {
 	dmp := diffmatchpatch.New()
 	a, b, c := dmp.DiffLinesToChars(a, b)

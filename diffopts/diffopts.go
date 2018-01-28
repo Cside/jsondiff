@@ -2,6 +2,10 @@ package diffopts
 
 import (
 	"fmt"
+
+	"encoding/json"
+
+	jsonpatch "github.com/evanphx/json-patch"
 )
 
 type Option struct {
@@ -10,12 +14,23 @@ type Option struct {
 	FilterLineDiff func(string) string
 }
 
-func IgnorePaths([]string) Option {
+type Patch struct {
+	Op   string `json:"op"`
+	Path string `json:"path"`
+}
+
+func IgnorePaths(paths []string) Option {
+	p := []Patch{}
+	for _, path := range paths {
+		p = append(p, Patch{Op: "remove", Path: path})
+	}
+	pb, _ := json.Marshal(&p)
+	patch, _ := jsonpatch.DecodePatch(pb)
+
 	return Option{
 		name: "IgnroePath",
 		FilterJSON: func(b []byte) ([]byte, error) {
-			// TODO
-			return b, nil
+			return patch.Apply(b)
 		},
 		FilterLineDiff: func(line string) string { return line },
 	}

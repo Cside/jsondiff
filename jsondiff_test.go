@@ -153,6 +153,23 @@ func TestDiff(t *testing.T) {
     ]
   }`,
 		},
+		{
+			name: "js safe int",
+			args: `{
+				"foo": [1, 2],
+				"bar": [9007199254740990]
+			}`,
+			want: `  {
+    "bar": [
+-     3
++     9007199254740990
+    ],
+    "foo": [
+      1,
+      2
+    ]
+  }`,
+		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
 			assert.Equal(

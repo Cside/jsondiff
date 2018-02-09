@@ -1,10 +1,10 @@
 package jsondiff
 
 import (
+	"encoding/json"
 	"strings"
 
 	"github.com/Cside/jsondiff/diffopts"
-	"github.com/bitly/go-simplejson"
 	"github.com/sergi/go-diff/diffmatchpatch"
 )
 
@@ -60,15 +60,15 @@ func LineDiff(a, b string, opts ...diffopts.Option) string {
 }
 
 func beautifyJSON(b []byte) []byte {
-	js, err := simplejson.NewJson(b)
+	var v interface{}
+	if err := json.Unmarshal(b, &v); err != nil {
+		return []byte("invalid JSON")
+	}
+	b, err := json.MarshalIndent(v, "", "  ")
 	if err != nil {
 		return []byte("invalid JSON")
 	}
-	out, err := js.EncodePretty()
-	if err != nil {
-		return []byte("invalid JSON")
-	}
-	return out
+	return b
 }
 
 func filterJSON(b []byte, opts ...diffopts.Option) []byte {

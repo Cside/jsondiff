@@ -2,12 +2,6 @@
 
 
 [[projects]]
-  name = "github.com/bitly/go-simplejson"
-  packages = ["."]
-  revision = "aabad6e819789e569bd6aabf444c935aa9ba1e44"
-  version = "v0.5.0"
-
-[[projects]]
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
   revision = "346938d642f2ec3594ed81d874461961cd0faa76"
@@ -40,6 +34,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ec6ffd190965c302addff1ecc9974501410cec08e524b84742f4f21e287cb9ff"
+  inputs-digest = "f7ecc0d5fcca7bbdb8b3833a509e047a093ed82d5466980c76e7bca9087af2a3"
   solver-name = "gps-cdcl"
   solver-version = 1

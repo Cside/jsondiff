@@ -35,7 +35,7 @@ exit status 1
 
 ## Ignore values
 
-You can ignore some values with specifiying `diffopts.IgnorePath(paths []string)` option. 
+You can ignore some values with specifiying `diffopts.IgnorePath(paths []string)` option.
 
 Target values can be specified with [JSON Pointer](https://tools.ietf.org/html/rfc6901) .
 
@@ -55,3 +55,7 @@ if diff := jsondiff.Diff(a, b, diffopts.IgnorePaths([]string{"/createdAt"})); di
 	t.Errorf("two jsons are not equal. diff:\n%s", diff)
 }
 ```
+
+## License
+
+[The MIT License](/LICENSE).
